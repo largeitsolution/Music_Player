@@ -7,7 +7,6 @@ import 'package:music_player_final/screen/bottomSheet.dart';
 
 import '../gobalVarialbe/gobalVariable.dart';
 
-
 //import 'package:just_audio/just_audio.dart';
 //import 'package:just_audio/just_audio.dart';
 
@@ -26,14 +25,14 @@ class _AudioPlayerUrlState extends State<AudioPlayerUrl> {
           max: audioDuration.toDouble(),
           onChanged: (value) {
             seekToSec(value.toInt());
-            print(audioDuration.toDouble());
-            print(value);
-            if (value == audioDuration.toDouble()) {
-              indexloop++;
-              setState(() {
-                alldata = musicList[indexloop];
-              });
-            }
+            // print(audioDuration.toDouble());
+            // print(value);
+            // if (value == audioDuration.toDouble()) {
+            //   indexloop++;
+            //   setState(() {
+            //     alldata = musicList[indexloop];
+            //   });
+            // }
           }),
     );
   }
@@ -41,7 +40,7 @@ class _AudioPlayerUrlState extends State<AudioPlayerUrl> {
   @override
   void initState() {
     super.initState();
-    playautonextsong();
+    // playautonextsong();
     dataList.add(alldata);
     print(dataList);
 
@@ -51,7 +50,8 @@ class _AudioPlayerUrlState extends State<AudioPlayerUrl> {
         audioPlayerState = state;
       });
       if (PlayerState.COMPLETED == audioPlayerState) {
-        indexloop++;
+        // indexloop++;
+        alldata = musicList[indexloop];
         setState(() {
           playMusic();
         });
@@ -83,7 +83,7 @@ class _AudioPlayerUrlState extends State<AudioPlayerUrl> {
     audioPlayer.release();
     audioPlayer.onSeekComplete;
     audioPlayerState.index;
-    // audioPlayer.dispose();
+    audioPlayer.dispose();
     super.dispose();
   }
 

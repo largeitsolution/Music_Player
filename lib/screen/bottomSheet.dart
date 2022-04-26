@@ -11,6 +11,7 @@ class BottomSheet1 extends StatefulWidget {
 }
 
 class _BottomSheet1State extends State<BottomSheet1> {
+  bool isLoop = false;
   Widget slider() {
     return Container(
       width: 300.0,
@@ -34,7 +35,7 @@ class _BottomSheet1State extends State<BottomSheet1> {
   @override
   void initState() {
     super.initState();
-    playautonextsong();
+    // playautonextsong();
     dataList.add(alldata);
     print(dataList);
 
@@ -44,12 +45,16 @@ class _BottomSheet1State extends State<BottomSheet1> {
         audioPlayerState = state;
         print(audioPlayerState);
       });
-      if (PlayerState.COMPLETED == audioPlayerState) {
+      if (PlayerState.COMPLETED == audioPlayerState &&
+          indexloop <= musicList.length - 1) {
         indexloop++;
+
+        alldata = musicList[indexloop];
         setState(() {
           playMusic();
         });
         alldata = musicList[indexloop];
+        indexloop = 0;
         playMusic();
         setState(() {});
       }
@@ -73,13 +78,13 @@ class _BottomSheet1State extends State<BottomSheet1> {
 
   /// Compulsory
   @override
-  void dispose() {
-    audioPlayer.release();
-    audioPlayer.onSeekComplete;
-    audioPlayerState.index;
-    // audioPlayer.dispose();
-    super.dispose();
-  }
+  // void dispose() {
+  //   audioPlayer.release();
+  //   audioPlayer.onSeekComplete;
+  //   audioPlayerState.index;
+  //   // audioPlayer.dispose();
+  //   super.dispose();
+  // }
 
   /// Compulsory
   playMusic() async {
@@ -179,7 +184,10 @@ class _BottomSheet1State extends State<BottomSheet1> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                      icon: Icon(Icons.repeat),
+                      icon: Icon(
+                        Icons.repeat,
+                        color: isLoop ? Colors.blue : Colors.black,
+                      ),
                       iconSize: 30.0,
                       onPressed: () {
                         if (isLoop == false) {
@@ -204,12 +212,22 @@ class _BottomSheet1State extends State<BottomSheet1> {
                     iconSize: 35.0,
                     onPressed: () {
                       setState(() {
-                        setState(() {
-                          indexloop--;
+                        indexloop--;
+                        if (indexloop >= musicList.length - 1 &&
+                            seletedindex >= musicList.length - 1) {
                           alldata = musicList[indexloop];
                           print(indexloop);
                           playMusic();
-                        });
+                          seletedindex--;
+                          // onselectedIndex(indexloop);
+                        } else {
+                          setState(() {
+                            indexloop = musicList.length-1;
+                            seletedindex =musicList.length-1;
+                            alldata = musicList[indexloop];
+                            playMusic();
+                          });
+                        }
                       });
                     },
                   ),
